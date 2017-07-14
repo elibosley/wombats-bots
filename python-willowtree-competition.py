@@ -28,40 +28,59 @@ def wombat(state, time_left):
     				return 'left'
     			if currentDirection == 'right':
     				return 'down'
-	else: 
-		return currentDirection
+		else: 
+			return currentDirection
     def blockType(x, y):
-	return state['arena'][x][y]['contents']['type']
+		return state['arena'][x][y]['contents']['type']
 	
-    def woodBlockInFront (currentDirection):
-	if currentDirection == 'up':
-		return (blockType(3,2) == 'wood-barrier')
-	if currentDirection == 'left':
-		return (blockType(2,3) == 'wood-barrier')
-	if currentDirection == 'down':
-		return (blockType(3,4) == 'wood-barrier')
-	if currentDirection == 'right':
-		return (blockType(4,3) == 'wood-barrier')
-    
+    def blockTypeInFront (currentDirection):
+		if currentDirection == 'up':
+			return blockType(3,2)
+		if currentDirection == 'left':
+			return blockType(2,3)
+		if currentDirection == 'down':
+			return blockType(3,4)
+		if currentDirection == 'right':
+			return blockType(4,3)
+	
+    def facingEdge(currentDirection):
+		if currentDirection == 'up':
+			state['global-coords'][1] == 0
+		if currentDirection == 'left':
+			state['global-coords'][0] == 0
+		if currentDirection == 'down':
+			state['global-coords'][1] == (state['global-dimensions'][1] - 1)
+		if currentDirection == 'right':
+			state['global-coords'][0] == (state['global-dimensions'][0] - 1)
+	
     import random
     theAction = ""
     availableActions = [turnRightAction, turnLeftAction, moveAction, shootAction]
     
-    if 'direction' not in state:
-        state['direction'] = "right"
+    if 'saved-state' not in state:
+	currentDirection = 'right'
+    else:
+	currentDirection = state['saved-state']['direction']
     
-    index = random.randint(0,3)
-    action = availableActions[index]
+    # index = random.randint(0,3)
+    # action = availableActions[index]
     
    # if state['global-coords'][0] == (state['global-dimensions'][0] - 1) and state['direction'] == "right":
      #   action = availableActions[3]
+	
+	if facingEdge(currentDirection):
+		action = turnRightAction
+	else if blockTypeInFront(currentDirection) in ['steel-barrier', 'poison']:
+		action = turnRightAction
+	else if blockTypeInFront(currentDirection) in ['wood-barrier', 'zakano', 'wombat', 'fog']:
+		action = shootAction
+	else:
+		action = moveAction
+		
         
-    state['direction'] = updateFacingDirection(state['direction'], action)
+    state['direction'] = updateFacingDirection(currentDirection, action)
     return {
-        'command': {
-            'action': action['action'],
-            'metadata': action['metadata']
-        },
-        'state': state['direction']
+        'command': action,
+        'state': state
     }
 
