@@ -28,8 +28,8 @@ def wombat(state, time_left):
     				return 'left'
     			if currentDirection == 'right':
     				return 'down'
-		else: 
-			return currentDirection
+	else: 
+		return currentDirection
     def blockType(x, y):
 		return state['arena'][x][y]['contents']['type']
 	
