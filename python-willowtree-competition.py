@@ -70,9 +70,9 @@ def wombat(state, time_left):
 	
 	if facingEdge(currentDirection):
 		action = turnRightAction
-	else if blockTypeInFront(currentDirection) in ['steel-barrier', 'poison']:
+	elif blockTypeInFront(currentDirection) in ['steel-barrier', 'poison']:
 		action = turnRightAction
-	else if blockTypeInFront(currentDirection) in ['wood-barrier', 'zakano', 'wombat', 'fog']:
+	elif blockTypeInFront(currentDirection) in ['wood-barrier', 'zakano', 'wombat', 'fog']:
 		action = shootAction
 	else:
 		action = moveAction
