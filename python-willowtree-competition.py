@@ -6,7 +6,10 @@ def wombat(state, time_left):
     turnLeftAction = {'action': 'turn', 'metadata' : {'direction': 'left'}}
     moveAction = {'action': 'move', 'metadata': {}}
     shootAction = {'action': 'shoot', 'metadata': {}}
-
+    return {
+    'command': shootAction,
+    'state': state
+}
 """
     def updateFacingDirection (currentDirection, action):
     	if action['action'] == 'turn':
@@ -80,8 +83,5 @@ def wombat(state, time_left):
         
     state['direction'] = updateFacingDirection(currentDirection, action)
 """
-return {
-    'command': shootAction,
-    'state': state
-}
+
 
