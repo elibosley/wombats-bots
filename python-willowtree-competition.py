@@ -80,8 +80,8 @@ def wombat(state, time_left):
         
     state['direction'] = updateFacingDirection(currentDirection, action)
 """
-    return {
-        'command': shootAction,
-        'state': state
-    }
+return {
+    'command': shootAction,
+    'state': state
+}
 
